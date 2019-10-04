@@ -15,34 +15,27 @@ stages:
     - python3 bootstrap.py -vv channel base
     - source ${CONDA_ROOT}/etc/profile.d/conda.sh
     - conda activate base
+  tags:
+    - docker
+  image: continuumio/conda-concourse-ci
   script:
     - conda build --python=${PYTHON_VERSION} recipe
     - conda convert ${CONDA_ROOT}/conda-bld/linux-64/rr-*.tar.bz2 --platform osx-64 --output ${CONDA_ROOT}/conda-bld
     - conda convert ${CONDA_ROOT}/conda-bld/linux-64/rr-*.tar.bz2 --platform win-64 --output ${CONDA_ROOT}/conda-bld
+ after_script:
+    - conda install anaconda-client
+    - anaconda -t ${ANACONDA_TOKEN} upload -u ${ANACONDA_USER} ${CONDA_ROOT}/conda-bld/*-64/rr*.tar.bz2 --force
   cache:
     paths:
       - miniconda.sh
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - sphinx
-      - cover
-      - $CONDA_ROOT/conda-bld/*/rr-*.tar.bz2
-      - ${CONDA_ROOT}/conda-bld/*-64/*.tar.bz2
 
-
-.build_linux:
-  extends: .build
-  tags:
-    - docker
-  image: continuumio/conda-concourse-ci
 
 linux-py36:
-  extends: .build_linux
+  extends: .build
   variables:
       PYTHON_VERSION: "3.6"
 
 linux-py37:
-  extends: .build_linux
+  extends: .build
   variables:
       PYTHON_VERSION: "3.7"
