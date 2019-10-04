@@ -33,9 +33,12 @@ stages:
   tags:
     - docker
   image: continuumio/conda-concourse-ci
+  script:
+    - conda convert ${CONDA_ROOT}/conda-bld/linux-64/rr-*.tar.bz --platform osx-64
+    - conda convert ${CONDA_ROOT}/conda-bld/linux-64/rr-*.tar.bz --platform win-64
   artifacts:
     paths:
-      - ${CONDA_ROOT}/conda-bld/linux-64/*.tar.bz2
+      - ${CONDA_ROOT}/conda-bld/*-64/*.tar.bz2
 
 linux-py36:
   extends: .build_linux
@@ -44,24 +47,5 @@ linux-py36:
 
 linux-py37:
   extends: .build_linux
-  variables:
-      PYTHON_VERSION: "3.7"
-
-
-.build_macos:
-  extends: .build
-  tags:
-    - macosx
-  artifacts:
-    paths:
-      - ${CONDA_ROOT}/conda-bld/osx-64/*.tar.bz2
-
-macos-py36:
-  extends: .build_macos
-  variables:
-      PYTHON_VERSION: "3.6"
-
-macos-py37:
-  extends: .build_macos
   variables:
       PYTHON_VERSION: "3.7"
