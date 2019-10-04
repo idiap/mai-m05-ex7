@@ -9,8 +9,7 @@ stages:
 
 # All stages are prepared the same, with a base set of commands
 .build:
-  stage:
-    - build
+  stage: build
   before_script:
     - curl --silent "${BOOTSTRAP}" --output "bootstrap.py"
     - python3 bootstrap.py -vv channel base
