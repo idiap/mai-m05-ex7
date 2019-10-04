@@ -1,0 +1,59 @@
+{% set name = "rr" %}
+{% set version = "1.0.3" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://test.pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.zip
+  sha256: f0dcb42d1d101fe4b88607343061f66f929186751251e01648f8e77d7d374ba6
+
+build:
+  number: 0
+  entry_points:
+    - rr-paper = rr.paper:main
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv "
+
+requirements:
+  host:
+    - pip
+    - python
+    - setuptools
+    - numpy ==1.15.4
+    - scipy ==1.1.0
+  run:
+    - python
+    - setuptools
+    - numpy ==1.15.4
+    - scipy ==1.1.0
+
+test:
+  source_files:
+    - doc/
+  requires:
+    - nose
+    - coverage
+    - sphinx
+    - sphinx_rtd_theme
+  imports:
+    - rr
+  commands:
+    - rr-paper
+    - sphinx-build -aEW doc sphinx
+    - sphinx-build -aEb doctest doc sphinx
+    - nosetests -sv --with-coverage --cover-html --cover-package=rr rr
+
+
+about:
+  home: https://gitlab.idiap.ch/software/master-ai-m05-ex6
+  license: BSD
+  license_family: BSD
+  license_file:
+  summary: Basic example of a Reproducible Research Project in Python
+  doc_url:
+  dev_url:
+
+extra:
+  recipe-maintainers:
+    - your-github-id-here

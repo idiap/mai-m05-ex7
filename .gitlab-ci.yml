@@ -1,0 +1,66 @@
+variables:
+  PYTHONUNBUFFERED: "1"
+  CONDA_ROOT: "${CI_PROJECT_DIR}/miniconda"
+  BOOTSTRAP: "https://gitlab.idiap.ch/bob/bob.devtools/raw/master/bob/devtools/bootstrap.py"
+
+stages:
+  - build
+
+
+# All stages are prepared the same, with a base set of commands
+.build:
+  before_script:
+    - curl --silent "${BOOTSTRAP}" --output "bootstrap.py"
+    - python3 bootstrap.py -vv channel base
+    - source ${CONDA_ROOT}/etc/profile.d/conda.sh
+    - conda activate base
+  script:
+    - conda build --python=${PYTHON_VERSION} recipe
+  cache:
+    paths:
+      - miniconda.sh
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - sphinx
+      - cover
+      - $CONDA_ROOT/conda-bld/*/rr-*.tar.bz2
+
+
+.build_linux:
+  extends: .build
+  tags:
+    - docker
+  image: continuumio/conda-concourse-ci
+  artifacts:
+    paths:
+      - ${CONDA_ROOT}/conda-bld/linux-64/*.tar.bz2
+
+linux-py36:
+  extends: .build_linux
+  variables:
+      PYTHON_VERSION: "3.6"
+
+linux-py37:
+  extends: .build_linux
+  variables:
+      PYTHON_VERSION: "3.7"
+
+
+.build_macos:
+  extends: .build
+  tags:
+    - macosx
+  artifacts:
+    paths:
+      - ${CONDA_ROOT}/conda-bld/osx-64/*.tar.bz2
+
+macos-py36:
+  extends: .build_macos
+  variables:
+      PYTHON_VERSION: "3.6"
+
+macos-py37:
+  extends: .build_macos
+  variables:
+      PYTHON_VERSION: "3.7"
