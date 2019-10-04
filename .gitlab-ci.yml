@@ -17,8 +17,8 @@ stages:
     - conda activate base
   script:
     - conda build --python=${PYTHON_VERSION} recipe
-    - conda convert ${CONDA_ROOT}/conda-bld/linux-64/rr-*.tar.bz --platform osx-64
-    - conda convert ${CONDA_ROOT}/conda-bld/linux-64/rr-*.tar.bz --platform win-64
+    - conda convert ${CONDA_ROOT}/conda-bld/linux-64/rr-*.tar.bz2 --platform osx-64
+    - conda convert ${CONDA_ROOT}/conda-bld/linux-64/rr-*.tar.bz2 --platform win-64
   cache:
     paths:
       - miniconda.sh
