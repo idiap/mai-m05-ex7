@@ -1,15 +1,16 @@
 {% set name = "rr" %}
-{% set version = "1.0.3" %}
+{% set version = "1.0.0" %}
 
 package:
-  name: "{{ name|lower }}"
+  name: "{{ name }}"
   version: "{{ version }}"
 
 source:
-  url: https://test.pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.zip
-  sha256: f0dcb42d1d101fe4b88607343061f66f929186751251e01648f8e77d7d374ba6
+  url: https://test.pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: fa72ab05f0bdf67dc68c4e8896833e8b3a12d0fcd73ef0027a46f521d327a74d
 
 build:
+  noarch: python
   number: 0
   entry_points:
     - rr-paper = rr.paper:main
@@ -17,16 +18,13 @@ build:
 
 requirements:
   host:
+    - python
     - pip
-    - python
-    - setuptools
-    - numpy ==1.15.4
-    - scipy ==1.1.0
   run:
-    - python
     - setuptools
-    - numpy ==1.15.4
-    - scipy ==1.1.0
+    - python >=3.7
+    - numpy ==1.19.1
+    - scipy ==1.5.2
 
 test:
   source_files:
@@ -40,19 +38,18 @@ test:
     - rr
   commands:
     - rr-paper
-    - sphinx-build -aEW doc sphinx
     - sphinx-build -aEb doctest doc sphinx
-    - nosetests -sv --with-coverage --cover-html --cover-package=rr rr
+    - nosetests -sv --with-coverage --cover-package=rr rr
 
 
 about:
-  home: https://gitlab.idiap.ch/software/master-ai-m05-ex6
+  home: https://test.pypi.org/project/rr
   license: BSD
   license_family: BSD
   license_file: LICENSE
   summary: Basic example of a Reproducible Research Project in Python
-  doc_url: https://rr.readthedocs.io/en/stable/
-  dev_url: https://gitlab.idiap.ch/software/master-ai-m05-ex6
+  doc_url: https://idiap.github.io/mai-m05-ex6/index.html
+  dev_url: https://github.com/idiap/mai-m05-ex6
 
 extra:
   recipe-maintainers:
