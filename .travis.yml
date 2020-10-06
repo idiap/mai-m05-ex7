@@ -9,12 +9,11 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
+  - conda install conda-build anaconda-client
 
 script:
   - conda activate base
   - conda build recipe  #this will also test it!
 
 after_success:
-  - conda activate base
-  - conda install --name base anaconda-client
   - anaconda -t ${ANACONDA_TOKEN} upload -u ${ANACONDA_USER} ${CONDA_PREFIX}/conda-bld/noarch/rr*.tar.bz2 --force
