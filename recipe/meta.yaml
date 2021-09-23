@@ -33,7 +33,7 @@ test:
     - rr
   commands:
     - rr-paper --help
-    - pytest -sv --cov=rr rr
+    - pytest -sv rr
 
 
 about:
