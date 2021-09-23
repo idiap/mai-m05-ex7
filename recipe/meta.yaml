@@ -1,5 +1,5 @@
 {% set name = "rr" %}
-{% set version = "1.0.0" %}
+{% set version = "2.0.0" %}
 
 package:
   name: "{{ name }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://test.pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: fa72ab05f0bdf67dc68c4e8896833e8b3a12d0fcd73ef0027a46f521d327a74d
+  sha256: b52e318a1a0f25847ee00ba2c4ab644e709f9fa2e59160b56608870dda22eb05
 
 build:
   noarch: python
@@ -22,24 +22,18 @@ requirements:
     - pip
   run:
     - setuptools
-    - python >=3.7
-    - numpy ==1.19.1
-    - scipy ==1.5.2
+    - python >=3.8
+    - numpy ==1.20.3
+    - scipy ==1.7.1
 
 test:
-  source_files:
-    - doc/
   requires:
-    - nose
-    - coverage
-    - sphinx
-    - sphinx_rtd_theme
+    - pytest
   imports:
     - rr
   commands:
-    - rr-paper
-    - sphinx-build -aEb doctest doc sphinx
-    - nosetests -sv --with-coverage --cover-package=rr rr
+    - rr-paper --help
+    - pytest -sv --cov=rr rr
 
 
 about:

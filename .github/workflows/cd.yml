@@ -1,0 +1,30 @@
+name: cd
+
+on:  # Define here when your project will be tested
+  workflow_dispatch:  # this allows you to 'manually' launch the workflow
+
+jobs:
+  publish:
+    name: Deploy to anaconda.org
+    runs-on: ubuntu-latest
+    steps:
+
+      # Action provided by GitHub to checkout code
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      # Action provided by 'conda-incubator' to setup conda env
+      - name: Setup miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniconda-version: 'latest'
+          auto-update-conda: true
+          auto-activate-base: true
+
+      - name: Build and upload conda package
+        shell: bash -l {0}
+        run: |
+          conda info -a
+          conda install conda-build anaconda-client
+          conda build recipe  #this will also test it!
+          anaconda -t ${ANACONDA_TOKEN} upload -u ${ANACONDA_USER} ${CONDA_PREFIX}/conda-bld/noarch/rr*.tar.bz2 --force
