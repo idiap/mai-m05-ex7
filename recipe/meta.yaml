@@ -1,5 +1,5 @@
 {% set name = "rr" %}
-{% set version = "2.0.0" %}
+{% set version = "2.0.1" %}
 
 package:
   name: "{{ name }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://test.pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: b52e318a1a0f25847ee00ba2c4ab644e709f9fa2e59160b56608870dda22eb05
+  sha256: fc99551a078bff655930f4d8e54674d9b8bd01f54571974423a16ec377f00392
 
 build:
   noarch: python
