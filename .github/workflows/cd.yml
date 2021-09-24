@@ -30,4 +30,4 @@ jobs:
           conda info -a
           conda install conda-build anaconda-client
           conda build recipe  #this will also test it!
-          anaconda -t "${ANACONDA_TOKEN}" upload -u "${ANACONDA_USER}" --force "${CONDA_BLD_PATH}"/noarch/rr*.tar.bz2
+          anaconda -t "${ANACONDA_TOKEN}" upload -u "${ANACONDA_USER}" --force "${CONDA_PREFIX}"/conda-bld/noarch/rr*.tar.bz2
