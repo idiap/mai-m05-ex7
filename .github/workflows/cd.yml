@@ -11,7 +11,7 @@ jobs:
 
       # Action provided by GitHub to checkout code
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Action provided by 'conda-incubator' to setup conda env
       - name: Setup miniconda
