@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://test.pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: fc99551a078bff655930f4d8e54674d9b8bd01f54571974423a16ec377f00392
+  sha256: fb2a0180ae6c20e4ac5725f11e817eba3ffc21882d73c2389b1df29ddb758a2b
 
 build:
   noarch: python
@@ -21,8 +21,8 @@ requirements:
     - python >=3.9
     - pip
   run:
-    - setuptools
     - python >=3.9
+    - setuptools
     - numpy 1.24.1
     - scipy 1.10.0
 
