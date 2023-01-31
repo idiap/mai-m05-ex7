@@ -23,8 +23,8 @@ requirements:
   run:
     - setuptools
     - python >=3.9
-    - numpy ==1.24.1
-    - scipy ==1.10.0
+    - numpy 1.24.1
+    - scipy 1.10.0
 
 test:
   requires:
